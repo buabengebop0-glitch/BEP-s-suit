@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BEP's Suit Luxury Store</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#eef3ff;
+}
+
+/* HEADER */
+
+header{
+
+background:black;
+color:#d4af37;
+padding:25px;
+font-size:35px;
+text-align:center;
+font-family:'Playfair Display';
+
+}
+
+/* NAVBAR */
+
+nav{
+
+display:flex;
+justify-content:center;
+gap:40px;
+background:#d4af37;
+padding:12px;
+
+}
+
+nav a{
+
+text-decoration:none;
+color:black;
+font-weight:bold;
+
+}
+
+/* HERO */
+
+.hero{
+
+height:350px;
+background:url("https://images.unsplash.com/photo-1593032465175-481ac7f401a0");
+background-size:cover;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:40px;
+
+}
+
+/* PRODUCTS */
+
+.products{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+padding:40px;
+
+}
+
+.card{
+
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+}
+
+.card img{
+
+width:100%;
+height:260px;
+object-fit:cover;
+
+}
+
+.card h3{
+
+padding:10px;
+
+}
+
+.price{
+
+color:#d4af37;
+font-size:20px;
+padding-left:10px;
+
+}
+
+button{
+
+border:none;
+padding:10px;
+margin:10px;
+cursor:pointer;
+
+}
+
+.buy{
+
+background:#d4af37;
+color:white;
+
+}
+
+.remove{
+
+background:red;
+color:white;
+
+}
+
+/* CART */
+
+.cart{
+
+position:fixed;
+top:20px;
+right:20px;
+background:black;
+color:white;
+padding:12px;
+border-radius:6px;
+
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:16px;
+border-radius:50%;
+text-decoration:none;
+
+}
+
+/* ADMIN PANEL */
+
+.admin{
+
+background:white;
+padding:25px;
+margin:40px;
+border-radius:10px;
+
+}
+
+.admin input{
+
+margin:10px;
+padding:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>BEP's Suit Luxury</header>
+
+<nav>
+
+<a href="#">Male Suits</a>
+<a href="#">Female Suits</a>
+<a href="#">Shoes</a>
+
+</nav>
+
+<div class="hero">
+Luxury Fashion Collection
+</div>
+
+<div class="cart">
+Cart: <span id="cartCount">0</span>
+</div>
+
+<a class="whatsapp" href="https://wa.me/233599669296">Order</a>
+
+<h2 style="text-align:center">Products</h2>
+
+<div class="products" id="products"></div>
+
+<!-- MOMO -->
+
+<div style="text-align:center;padding:40px">
+
+<h2>Mobile Money Payment</h2>
+
+<p>Send payment to:</p>
+
+<h1>0599669296</h1>
+
+</div>
+
+<!-- ADMIN -->
+
+<div class="admin">
+
+<h2>Admin Upload Product</h2>
+
+<input id="name" placeholder="Product name">
+
+<input id="price" placeholder="Price">
+
+<input type="file" id="image">
+
+<button onclick="addProduct()">Upload Product</button>
+
+</div>
+
+<script>
+
+/* PRODUCTS */
+
+let products=[
+
+{
+name:"Luxury Black Suit",
+price:"500 GHS",
+img:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0"
+},
+
+{
+name:"Elegant Female Suit",
+price:"420 GHS",
+img:"https://images.unsplash.com/photo-1520975916090-3105956dac38"
+},
+
+{
+name:"Italian Leather Shoe",
+price:"260 GHS",
+img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+}
+
+]
+
+/* CART */
+
+let cart=0
+
+function addCart(){
+
+cart++
+
+document.getElementById("cartCount").innerText=cart
+
+}
+
+/* DISPLAY */
+
+function render(){
+
+let container=document.getElementById("products")
+
+container.innerHTML=""
+
+products.forEach((p,index)=>{
+
+container.innerHTML+=`
+
+<div class="card">
+
+<img src="${p.img}">
+
+<h3>${p.name}</h3>
+
+<p class="price">${p.price}</p>
+
+<button class="buy" onclick="addCart()">Add to Cart</button>
+
+<button class="remove" onclick="removeProduct(${index})">Remove</button>
+
+</div>
+
+`
+
+})
+
+}
+
+/* REMOVE */
+
+function removeProduct(index){
+
+products.splice(index,1)
+
+render()
+
+}
+
+/* ADD PRODUCT */
+
+function addProduct(){
+
+let name=document.getElementById("name").value
+let price=document.getElementById("price").value
+let file=document.getElementById("image").files[0]
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+products.push({
+
+name:name,
+price:price,
+img:e.target.result
+
+})
+
+render()
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+render()
+
+</script>
+
+</body>
+
+</html>
